@@ -22,7 +22,4 @@ def preprocess(ds):
   # Add ens_mem dimension
   dsnew['ens_mem'] = (filenum - 1) # Files are indexed from 1
   dsnew = dsnew.expand_dims('ens_mem').set_coords('ens_mem')
-  # Get surface wind speed and sst
-  dsnew = get_wind_speed(dsnew)
-  dsnew = get_sst(dsnew)
   return dsnew  
