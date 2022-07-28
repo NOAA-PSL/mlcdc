@@ -21,3 +21,4 @@ Machine Learning for estimating Cross Domain Covariance (&amp; Correlation) rela
         2. splitting training, validation, and testing
         3. dimension flattening
     - [ ] Eventually, pipeline leading up to this stage
+        * Should we rename coordinates how we want or is that annoying
