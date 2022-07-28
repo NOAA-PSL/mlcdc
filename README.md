@@ -1,19 +1,23 @@
 # mlcdc
 Machine Learning for estimating Cross Domain Covariance (&amp; Correlation) relationships in coupled atmosphere-ocean DA systems
 
+## General TODO
 
-## Process
+### Model related
 
-- [x] Get "true" correlations from 80 member ensemble
-- [ ] Get predictors as 4 x 20 member ensemble averages of
-    - precip rate, cloud fraction, total precip, total precip, total cloud
-      cover, lw, sw, (fluxes?)
-    - SST, MLD, wind speed, surface current speed
-    - Without resampling or kernel estimation, don't have to worry about error
-      in this approximation ... otherwise maybe that gets tricky?
-- [ ] Make training and validation datasets:
-    - flatten lon, lat, sample (1-4) to sample dimension
-    - independent variables or predictors dimension (can just be labels)
-    - dependent variables or output / labels on `atm_lev`, `ocn_lev`
-- [ ] go with [this example](https://www.tensorflow.org/tutorials/keras/regression)
+- [ ] Want activation function relevant to correlation (-1, 1)
+- [ ] How to choose:
+    - regularization type and parameter
+    - learning rate
+- [ ] Eventually: how to do with xarray/dask? Use tf data loader?
 
+
+### Data related
+
+- [ ] Split scripts in notebooks to separate dir
+- [ ] Organize data preprocessing pipeline to be more portable
+    - [ ] First, take care of:
+        1. masking
+        2. splitting training, validation, and testing
+        3. dimension flattening
+    - [ ] Eventually, pipeline leading up to this stage
