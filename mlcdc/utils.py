@@ -37,8 +37,8 @@ def random_indices(n_size, n_indices, random_seed=None):
     """
 
     rstate = np.random.RandomState(random_seed)
-    return rstate.choice(len(arr),
-                         size=int(len(arr) * fraction),
+    return rstate.choice(n_size,
+                         size=n_indices,
                          replace=False)
 
 
