@@ -9,8 +9,29 @@ from .utils import split_dataset, XNormalizer
 class KerasFeeder():
     """Do the following
 
-        1. Subset features, label, and any masks from dataset
-        2.
+        1. Subset features, label, and any masks from dataset (load into memory if desired)
+        2. Stack horizontal (lat/lon) to single dimension
+        3. Remove NaNs
+        4. Broadcast label dimension to each ensemble member
+        5. Stack the stacked horizontal dimension and ensemble member dimension to "sample"
+        6. Reorder the dimensions to how tensorflow likes it
+        7. Set the :attr:`features` and :attr:`labels`
+        8. If desired, normalize the data in :attr:`features`
+        9. Stack the vertical coordinate in :attr:`labels`
+        10. Prepare the :attr:`inputs`, which can be fed directly into keras
+
+    Attributes:
+        features (dict): with "training" and "testing" keys, each of those map to their own dictionaries with all of the feature names/arrays as keys/values
+        labels (dict): with "training" and "testing" keys, mapping to the label array. Despite the plurality of this attribute, there is only one label array.
+        inputs (list): elements are :obj:`keras.Input` with names as in :attr:`feature_names` and correct dimensionality
+        feature_names (list): the names of feature arrays to use
+        label_name (str): the name of the label array to use
+        load_into_memory (bool): if True, load the dataset used into memory after subsetting it
+        normalize_data (bool): if True, normalize features based on training data
+        training fraction (float): fraction of data to reserve for training (any validation would be included in this) -vs- testing
+        horizontal_dim, horizontal_index (str): name to use for the flattened horizontal dimension. "_dim" corresponds to the mapping of a single point to lat/lon tuple, while "_index" is simply a logical index.
+        vertical_dim (str): name for stacked vertical dimension of label array
+        sample_dim (str): name for the array to use when stacking horizontal space and ensemble member into one
     """
 
     horizontal_dim      = 'x'
@@ -63,6 +84,13 @@ class KerasFeeder():
 
 
     def __init__(self, feature_names, label_name, mask_name=None, **kwargs):
+        """
+        Args:
+            feature_names (list of str): names of features to pull from dataset
+            label_name (str): name of label array
+            mask_name (str, optional): name of mask array in dataset
+            kwargs: change any of the attributes except for :attr:`features`, :attr:`labels`, and :attr:`inputs`.
+        """
 
         self.feature_names  = feature_names
         self.label_name     = label_name
@@ -168,6 +196,9 @@ class KerasFeeder():
 
     def remove_nans(self, xds):
         """Get and apply mask obtained :meth:`get_mask`. Points where ``mask == False`` are removed from all arrays in ``xds``.
+
+        Note:
+            It is important to do this after stacking the horizontal dimension, otherwise not all NaN points will be removed.
         """
         mask = self.get_mask(xds)
         return xds.where(mask, drop=True)
