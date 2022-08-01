@@ -1,9 +1,11 @@
 from setuptools import setup
 
 install_requires=[
+        "numpy",
+        "scipy",
         "xarray",
         "zarr",
-        "numpy",
+        "tensorflow",
 ]
 
 setup(
