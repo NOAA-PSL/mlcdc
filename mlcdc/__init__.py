@@ -5,6 +5,6 @@ from .kerasfeeder import KerasFeeder
 __all__ = [
         "GCMDataConverter",
         "KerasFeeder",
-        "data_utils",
+        "load_data_fns",
         "utils",
 ]
