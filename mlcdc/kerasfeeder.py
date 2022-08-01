@@ -46,6 +46,22 @@ class KerasFeeder():
         return (self.sample_dim, 'olev', 'alev')
 
 
+    @property
+    def x_training(self):
+        if self.features is not None:
+            return {k:self.features['training'][k].data for k in self.feature_names}
+        else:
+            return None
+
+
+    @property
+    def x_testing(self):
+        if self.features is not None:
+            return {k:self.features['testing'][k].data for k in self.feature_names}
+        else:
+            return None
+
+
     def __init__(self, feature_names, label_name, mask_name=None, **kwargs):
 
         self.feature_names  = feature_names
