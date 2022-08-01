@@ -166,9 +166,3 @@ class GCMDataConverter():
         store = zarr.NestedDirectoryStore(path=self.zstore_path)
         xds.to_zarr(store=store)
         print(f"Saved zarr store at: {self.zstore_path}")
-
-
-if __name__ == "__main__":
-
-    do = DataOrganizer(zstore_dir="/work2/noaa/gsienkf/tsmith/mlcdc/data/")
-    do()
