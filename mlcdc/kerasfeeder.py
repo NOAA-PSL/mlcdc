@@ -48,6 +48,13 @@ class KerasFeeder():
     inputs              = None
 
     @property
+    def n_samples(self):
+        if labels is not None:
+            return len(self.labels['training'][sample_dim])
+        else:
+            return None
+
+    @property
     def horizontal_stack(self):
         return {self.horizontal_dim : ('lat', 'lon')}
 
@@ -102,6 +109,10 @@ class KerasFeeder():
 
 
     def __call__(self, xds):
+        """
+        Args:
+            xds (:obj:`xarray.Dataset`): dataset used to generate training and testing data
+        """
 
         xds = self.subset_dataset(xds)
 

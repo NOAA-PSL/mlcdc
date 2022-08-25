@@ -74,6 +74,7 @@ class GCMDataConverter():
 
     def get_labels(self):
         """Get the field/array with labels from netcdf file
+
         Returns:
             xda (:obj:`xarray.DataArray`): the field of labels (correlation)
         """
