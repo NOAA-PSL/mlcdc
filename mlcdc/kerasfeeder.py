@@ -49,7 +49,7 @@ class KerasFeeder():
 
     @property
     def n_samples(self):
-        if labels is not None:
+        if self.labels is not None:
             return len(self.labels['training'][sample_dim])
         else:
             return None
