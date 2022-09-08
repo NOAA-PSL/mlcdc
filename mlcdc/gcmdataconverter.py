@@ -4,7 +4,7 @@ import xarray as xr
 import zarr
 
 #from .load_data_fns import (open_full_dataset,
-#        #,educe_vertical_levels, get_vertical_coordinates,
+#        #reduce_vertical_levels, get_vertical_coordinates,
 #        #get_wind_speed, get_srf_current_speed, get_sst, get_ast
 #        )
 

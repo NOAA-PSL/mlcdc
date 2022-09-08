@@ -7,7 +7,10 @@ from tensorflow import keras
 from .utils import split_dataset, XNormalizer
 
 class KerasFeeder():
-    """Do the following
+    """Feed GCM output into Keras inputs, for output on multiple vertical levels
+
+    Note:
+        Executes the following operations
 
         1. Subset features, label, and any masks from dataset (load into memory if desired)
         2. Stack horizontal (lat/lon) to single dimension
@@ -50,7 +53,7 @@ class KerasFeeder():
     @property
     def n_samples(self):
         if self.labels is not None:
-            return len(self.labels['training'][sample_dim])
+            return len(self.labels['training'][self.sample_dim])
         else:
             return None
 
@@ -318,3 +321,22 @@ class KerasFeeder():
 
     def broadcast_for_label(self, xds, dimname):
         return xds[self.label_name].broadcast_like(xds[dimname])
+
+
+class SurfaceFeeder(KerasFeeder):
+    """Feed GCM output into Keras inputs, for output only at the surface. Otherwise, same as KerasFeeder"""
+
+
+    @property
+    def dim_order(self):
+        return (self.sample_dim,)
+
+
+    def get_mask(self, xds):
+        mask = ~np.isnan(xds[self.label_name])
+        mask = mask & xds[self.mask_name]
+        return mask
+
+
+    def stack_vertical(self, labels):
+        return labels
