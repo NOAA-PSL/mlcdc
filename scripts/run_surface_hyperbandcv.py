@@ -168,7 +168,8 @@ if __name__ == "__main__":
     search = HyperbandSearchCV(estimator=model,
                                parameters=params,
                                max_iter=100,
-                               patience=False,
+                               patience=True,
+                               tol=1e-2,
                                test_size=0.2,
                                scoring="neg_mean_squared_error",
                                random_state=0)
