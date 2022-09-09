@@ -29,6 +29,7 @@ from dask_ml.model_selection import HyperbandSearchCV
 from mlcdc import SurfaceFeeder
 
 def open_surfacedataset(path):
+    """open dataset and compute/select surface quantities"""
 
     # Preliminary setup
     ds = xr.open_zarr(path)
@@ -78,6 +79,18 @@ def build_model(n_layers=1,
                 regularizer=keras.regularizers.L2,
                 regularization=1e-7,
                ):
+    """Build a keras neural network
+
+    Args:
+        n_layers (int, optional): number of layers in NN
+        units_per_layer (int, optional): number of nodes  in each layer
+        hidden_activation (str, optional): activation function in all of the hidden layers, e.g. "swish", "tanh"
+        regularizer (:class:`keras.regularizers.Regularizer`): e.g. L1 or L2
+        regularization (float, optional): regularization to be applied to all kernel and bias weights in the network
+
+    Returns:
+        model (:obj:`keras.Model`): neural network model
+    """
 
     # hard code this part for now
     ftr = ['atm_q2m', 'atm_qrain', 'atm_t2m','atm_tprcp', 'atm_speed_srf',
@@ -135,20 +148,20 @@ if __name__ == "__main__":
     # Note: use loss__, optimizer__, or metrics__ to pass kwargs to sub-arguments
     # within model.compile ... easiest to do this and not compile the model in build_model
     params = {
-        "n_layers" : np.arange(2, 20, 2),
-        "units_per_layer" : [8, 16, 32, 64, 128],
-        "hidden_activation" : ["tanh", "swish", "sigmoid"],
-        "regularizer" : [keras.regularizers.L2,
-                         keras.regularizers.L1],
-        "regularization" : loguniform(1e-9, 1e-2),
-        "optimizer__learning_rate" : loguniform(1e-5, 1e-1),
-        "batch_size" : [16, 32, 64, 128, 256],
-        "loss" : [keras.losses.MeanAbsoluteError(),
-                  keras.losses.MeanSquaredError(),
-                  keras.losses.Huber(delta=10),
-                  keras.losses.Huber(delta=1),
-                  keras.losses.Huber(delta=0.1)],
-    }
+        "n_layers"                  : np.arange(2, 20, 2),
+        "units_per_layer"           : [8, 16, 32, 64, 128],
+        "hidden_activation"         : ["tanh", "swish", "sigmoid"],
+        "regularizer"               : [keras.regularizers.L2,
+                                       keras.regularizers.L1],
+        "regularization"            : loguniform(1e-9, 1e-2),
+        "optimizer__learning_rate"  : loguniform(1e-5, 1e-1),
+        "batch_size"                : [16, 32, 64, 128, 256],
+        "loss"                      : [keras.losses.MeanAbsoluteError(),
+                                       keras.losses.MeanSquaredError(),
+                                       keras.losses.Huber(delta=10),
+                                       keras.losses.Huber(delta=1),
+                                       keras.losses.Huber(delta=0.1)],
+        }
 
 
     kw = {key : None for key in params.keys()}
