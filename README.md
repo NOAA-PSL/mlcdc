@@ -1,9 +1,8 @@
-# mlcdc
-Machine Learning for estimating Cross Domain Covariance (&amp; Correlation) relationships in coupled atmosphere-ocean DA systems
+# Machine Learning for estimating Cross Domain Covariance (&amp; Correlation) relationships in coupled atmosphere-ocean DA systems
 
 ## Proof of Concept
 
-As a proof of concept, we use a feedforward neural network to predict
+As a proof of concept, we use a feedforward neural network to predict the
 surface atmosphere-ocean temperature correlation structure.
 The main idea is to use the neural network to extend the statistical
 significance of a small ensemble.
@@ -14,12 +13,12 @@ following features (which we can definitely optimize further!):
 - Atmosphere: 2 meter humidity, 2 meter temperature, sensible heat flux due to rainfall, total precip, surface horizontal wind speed
 - Ocean: SST, surface height, horizontal surface speed, barotropic current speed, mixed layer depth, mean eddy kinetic energy
 
-Each "feature" is taken as a "small-ensemble average", for now, derived from 20
+Each "feature" is taken as a small-ensemble average, which, for now, is derived from 20
 member subsets.
 For details on the neural network architecture, see
 [notebooks/surface_feedforward_regression.ipynb](notebooks/surface_feedforward_regression.ipynb).
 
-<img src="figures/surface_temperature_correlation_map_kfold.jpg" width=500> <img src="figures/surface_correlation_prediction_histogram.jpg" width=300>
+<img src="figures/surface_temperature_correlation_map_kfold.jpg" width=550> <img src="figures/surface_correlation_prediction_histogram.jpg" width=250>
 
 The map shows the true and predicted surface temperature correlation field.
 The plot on the right indicates prediction skill, showing a bivariate histogram
