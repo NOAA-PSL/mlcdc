@@ -18,7 +18,7 @@ member subsets.
 For details on the neural network architecture, see
 [notebooks/surface_feedforward_regression.ipynb](notebooks/surface_feedforward_regression.ipynb).
 
-<img src="figures/surface_temperature_correlation_map_kfold.jpg" width=550> <img src="figures/surface_correlation_prediction_histogram.jpg" width=250>
+<img src="figures/surface_temperature_correlation_map_kfold.jpg" width=550> <img src="figures/surface_correlation_prediction_histogram_kfold.jpg" width=250>
 
 The map shows the true and predicted surface temperature correlation field.
 The plot on the right indicates prediction skill, showing a bivariate histogram
