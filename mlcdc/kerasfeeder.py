@@ -161,7 +161,8 @@ class KerasFeeder():
                 f" --- \n"+\
                 f"    {'Training Fraction':<24s}: {self.training_fraction}\n"+\
                 f"    {'Normalize Data':<24s}: {self.normalize_data}\n"+\
-                f"    {'Load into Memory':<24s}: {self.load_into_memory}\n"
+                f"    {'Load into Memory':<24s}: {self.load_into_memory}\n"+\
+                f"    {'Number of training samples':<24s}: {self.n_samples}\n"
 
         return mystr
 
@@ -213,6 +214,12 @@ class KerasFeeder():
 
         Note:
             It is important to do this after stacking the horizontal dimension, otherwise not all NaN points will be removed.
+
+        Args:
+            xds (:obj:`xarray.Dataset`): with mask and label field
+
+        Returns:
+            xds (:obj:`xarray.Dataset`): all masked points removed, see :meth:`get_mask`.
         """
         mask = self.get_mask(xds)
         return xds.where(mask, drop=True)
@@ -220,7 +227,18 @@ class KerasFeeder():
 
     def set_features_and_labels(self, xds, random_seed=None):
         """Split dataset into training and testing datasets, and separate features and labels.
-        TODO: separate validation as well.
+
+        Note:
+            Validation data is currently assumed to be within the training dataset. It is not separated here.
+            This assumes a very basic split based on :attr:`training_fraction`.
+
+        Args:
+            xds (:obj:`xarray.Dataset`): with training data and labels
+            random_seed (int, optional): RNG seed
+
+        Sets Attributes:
+            features (dict): with keys/values corresponding to :attr:`feature_names` and dataset
+            labels (dict): with key/svalues corresponding to :attr:`label_name` in dataset
         """
         train_ds, test_ds = split_dataset(xds,
                                           dim=self.sample_dim,

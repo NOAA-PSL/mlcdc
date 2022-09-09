@@ -57,6 +57,7 @@ class GCMDataConverter():
 
 
     def __init__(self, **kwargs):
+        """All attributes can be changed by passing as keyword arguments to initialization"""
         for key, val in kwargs.items():
             setattr(self, key, val)
 
