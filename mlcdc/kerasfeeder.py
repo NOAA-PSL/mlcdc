@@ -162,7 +162,7 @@ class KerasFeeder():
                 f"    {'Training Fraction':<24s}: {self.training_fraction}\n"+\
                 f"    {'Normalize Data':<24s}: {self.normalize_data}\n"+\
                 f"    {'Load into Memory':<24s}: {self.load_into_memory}\n"+\
-                f"    {'Number of training samples':<24s}: {self.n_samples}\n"
+                f"    {'Num. training samples':<24s}: {self.n_samples}\n"
 
         return mystr
 
